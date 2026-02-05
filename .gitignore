@@ -1,0 +1,8 @@
+# パスワード入りDAOはGit管理から外す
+/src/main/resources/application.properties
+/build/
+
+# Eclipse設定ファイル
+.classpath
+.project
+.settings/
