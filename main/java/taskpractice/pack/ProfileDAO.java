@@ -37,11 +37,10 @@ public class ProfileDAO {
 		String sql = "SELECT * FROM mst_profiles WHERE user_id = ?"; // 仮にuser_idが1のプロフィールを取得する場合
 
 		try (Connection conn = DriverManager.getConnection(URL, DB_USER, DB_PASSWORD);
-				PreparedStatement ps = conn.prepareStatement(sql)) {
+			PreparedStatement ps = conn.prepareStatement(sql)) {
 				
+				ps.setInt(1, userid_);
 				
-				ps.setInt(1, userid_); // ここではuser_idを1に設定しています。実際のアプリケーションでは動的に設定する必要があります。
-
 			try (ResultSet rs = ps.executeQuery()) {
 				if (rs.next()) {
 					Profile profile = new Profile();
@@ -54,8 +53,8 @@ public class ProfileDAO {
 					profile.setHobby(rs.getString("hobby"));
 					profile.setMemo(rs.getString("memo"));
 					profile.setIconPath(rs.getString("icon_image"));
-					profile.setCreatedAt(rs.getString("created_at"));
-					profile.setUpdatedAt(rs.getString("updated_at"));
+					profile.setCreatedAt(rs.getDate("created_at"));
+					profile.setUpdatedAt(rs.getDate("updated_at"));
 					return profile;
 					
 				}
@@ -68,6 +67,43 @@ public class ProfileDAO {
 
 		return null;
 	}
+	
+	
+	public int setProfiles(Profile profile_,int userid_) {
+		String sql = "UPDATE mst_profiles SET"
+				+ "nickname = ?,"
+				+ "bitrh = ?,"
+				+ "job_category = ?,"
+				+ "hobby = ?,"
+				+ "memo = ?,"
+				+ "icon_image = ?,"
+				+ "updated_at = ?"
+				+ "WHERE user_id = ?";
+		
+		try (Connection conn = DriverManager.getConnection(URL, DB_USER, DB_PASSWORD);
+				PreparedStatement ps = conn.prepareStatement(sql)) {
+
+				ps.setString(1, profile_.getNickname());
+				ps.setDate(2, profile_.getBirth());
+				ps.setString(3, profile_.getJobCategory());
+				ps.setString(4, profile_.getHobby());
+				ps.setString(5, profile_.getMemo());
+				ps.setString(6, profile_.getIconPath());
+				ps.setDate(7, profile_.getUpdatedAt());
+				ps.setInt(8, userid_);
+				
+
+				int affectedRows = ps.executeUpdate();
+				return affectedRows;
+			}
+		catch (SQLException e) {
+			System.err.println("save error: " + e.getMessage());// サーバーからエラーが返ってきたときのエラー内容の表示
+		
+		}
+		return -1;
+		
+	}
+	
 	
 	
 	

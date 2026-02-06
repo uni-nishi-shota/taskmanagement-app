@@ -11,9 +11,9 @@ public class Profile {
 	private String jobCategory;
 	private String hobby;
 	private String memo;
-	private String iconPath;
-	private String createdAt;
-	private String updatedAt;
+	private String iconImagePath;
+	private Date createdAt;
+	private Date updatedAt;
 	
 	// デフォルトコンストラクタ
     public Profile() {}
@@ -49,13 +49,13 @@ public class Profile {
 	public String getMemo() {return memo;}
 	public void setMemo(String memo_) {this.memo = memo_;}
 	
-	public String getIconPath() {return iconPath;}
-	public void setIconPath(String iconPath_) {this.iconPath = iconPath_;}
+	public String getIconPath() {return iconImagePath;}
+	public void setIconPath(String iconPath_) {this.iconImagePath = iconPath_;}
 	
-	public String getCreatedAt() {return createdAt;}
-	public void setCreatedAt(String createdAt_) {this.createdAt = createdAt_;}
+	public Date getCreatedAt() {return createdAt;}
+	public void setCreatedAt(Date createdAt_) {this.createdAt = createdAt_;}
 	
-	public String getUpdatedAt() {return updatedAt;}
-	public void setUpdatedAt(String updatedAt_) {this.updatedAt = updatedAt_;}
+	public Date getUpdatedAt() {return updatedAt;}
+	public void setUpdatedAt(Date updatedAt_) {this.updatedAt = updatedAt_;}
 
 }

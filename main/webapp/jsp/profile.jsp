@@ -30,26 +30,17 @@
 		<%
 		}
 		%>
-		
-		
-		<%
-			String nickname = (String) request.getAttribute("nickname");
-		
-		    
-		%>
-		
-		
 
         <!-- プロフィールフォーム -->
         <form method="post" action="${pageContext.request.contextPath}/profile">
 			<div class="form-group">
 				<label for="nickname">ニックネーム（50文字以内）</label> 
-				<input type="text" id="nickname" name="nickname" placeholder= "ニックネームを入力"  maxlength="50" value="${nickname}" >
+				<input type="text" id="nickname" name="nickname" placeholder= "ニックネームを入力"  maxlength="50" value="${profile.nickname}" >
 			</div>
 			
 			<div class="form-group">
 				<label for="birth">誕生日</label> 
-				<input type="date" id="birth" name="birth" placeholder="誕生日を入力">
+				<input type="date" id="birth" name="birth" placeholder="誕生日を入力" value="${profile.birth}">
 			</div>
 			
 			<div>
@@ -58,7 +49,7 @@
 				
 			<div class="form-group">
 				<label for="job-category">職種</label> 
-				<input type="search" id="job-category" name="job-category" placeholder="職種を選択" list="job-categories">
+				<input type="search" id="job-category" name="job-category" placeholder="職種を選択" list="job-categories" value="${profile.jobCategory}">
 				<datalist id="job-categories">
                     <option value="学生"></option>
                     <option value="会社員"></option>
@@ -74,12 +65,12 @@
 			
 			<div class="form-group">
 				<label for="hobby">趣味・好きなこと</label> 
-				<input type="text" id="hobby" name="hobby" placeholder="趣味・好きなことを入力">
+				<input type="text" id="hobby" name="hobby" placeholder="趣味・好きなことを入力" value="${profile.hobby}">
 			</div>
 			
 			<div class="form-group">
 				<label for="memo">memo</label> 
-				<input type="text" id="memo" name="memo" placeholder="メモ...">
+				<input type="text" id="memo" name="memo" placeholder="メモ..." value="${profile.memo}">
 			</div>
 			
 			<div class="form-group">
@@ -99,9 +90,6 @@
 		
 		</div>
 		</main>
-		
-        
-       
 		
 		<!-- フッター -->
 		<jsp:include page="footer.jsp" />

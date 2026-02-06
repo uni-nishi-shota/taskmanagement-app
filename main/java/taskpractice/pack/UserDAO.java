@@ -15,20 +15,20 @@ public class UserDAO {
 	
 	 // コンストラクタでapplication.propertiesから読み込む
 	public UserDAO() {
-		Properties prop = new Properties();
-		try (InputStream input = getClass().getClassLoader().getResourceAsStream("application.properties")) {
-			if (input == null) {
-				System.err.println("application.propertiesが見つかりません");
-				return;
-			}
-			prop.load(input);
-			URL = prop.getProperty("db.url");
-			DB_USER = prop.getProperty("db.user");
-			DB_PASSWORD = prop.getProperty("db.password");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+		  Properties prop = new Properties();
+	        try (InputStream input = getClass().getClassLoader().getResourceAsStream("application.properties")) {
+	            if (input == null) {
+	                System.err.println("application.propertiesが見つかりません");
+	                return;
+	            }
+	            prop.load(input);
+	            URL = prop.getProperty("db.url");
+	            DB_USER = prop.getProperty("db.user");
+	            DB_PASSWORD = prop.getProperty("db.password");
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+	    }
 
 	// JDBCドライバーの読み込み
 	static {
