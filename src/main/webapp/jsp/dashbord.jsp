@@ -19,7 +19,7 @@
         <h1>ダッシュボード</h1>
         <div class="user-info">
             <span class="welcome-text">
-                ようこそ、<strong><%= ((User)session.getAttribute("user")).getUsername() %></strong>さん
+                ようこそ、<strong><%= ((User)session.getAttribute("user")).getEmail() %></strong>さん
             </span>
             <a href="${pageContext.request.contextPath}/jsp/menu.jsp" class="menu-btn">メニューへ</a>
         </div>
@@ -55,7 +55,7 @@
                 %>
                     <tr <%= isCurrentUser ? "class=\"current-user\"" : "" %>>
                         <td><%= user.getId() %></td>
-                        <td><%= user.getUsername() %></td>
+                        <td><%= user.getEmail() %></td>
                         <td>
                             <%= isCurrentUser ? "ログイン中" : "オフライン" %>
                         </td>

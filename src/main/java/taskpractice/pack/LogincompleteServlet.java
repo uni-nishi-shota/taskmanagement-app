@@ -36,6 +36,9 @@ public class LogincompleteServlet extends HttpServlet {
 			response_.sendRedirect("login");
 			return;
 		}
+		
+		
+		
 
 		request_.getRequestDispatcher("jsp/logincomplete.jsp").forward(request_, response_);
 	}

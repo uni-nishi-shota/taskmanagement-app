@@ -8,6 +8,7 @@
 <title>ログイン - Task Practice Web App</title>
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/general.style.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/login.style.css">
 
 </head>
 

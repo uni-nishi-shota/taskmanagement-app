@@ -35,6 +35,11 @@ public class MenuServlet extends HttpServlet {
             response_.sendRedirect("login");
             return;
         }
-
+        
+        request_.getRequestDispatcher("jsp/menu.jsp").forward(request_, response_);
 	}
 }
+//TODO memoとhobbyの枠を文字量に応じて広げたい（出来なければ、固定でいいから一旦広げる
+//また、プロフィール作成後の誕生日はそのまま登録するとエラー出るので、それも修正。
+//その後はタスクリストの画面作成ー＞タスク作成の画面と内部作成。編集もできるように。
+//ここまでを一旦の完成とし、その後はカレンダーに表示などをやっていくつもり

@@ -18,9 +18,11 @@
 			<div class="container">
 
 				<h2>ログイン完了しました</h2>
-					<div class="btn-group center">
-						<a href="${pageContext.request.contextPath}/jsp/menu.jsp" class="btn btn-primary">メニューへ</a>
-					</div>
+				<div class="btn-group center">
+					<form method="get" action="menu">
+						<button type="submit" class="btn btn-primary">メニューへ</button>
+					</form>
+				</div>
 			</div>
 		</main>
 

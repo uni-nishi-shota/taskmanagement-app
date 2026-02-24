@@ -49,8 +49,8 @@ public class Profile {
 	public String getMemo() {return memo;}
 	public void setMemo(String memo_) {this.memo = memo_;}
 	
-	public String getIconPath() {return iconImagePath;}
-	public void setIconPath(String iconPath_) {this.iconImagePath = iconPath_;}
+	public String getIconImagePath() {return iconImagePath;}
+	public void setIconImagePath(String iconImagePath_) {this.iconImagePath = iconImagePath_;}
 	
 	public Date getCreatedAt() {return createdAt;}
 	public void setCreatedAt(Date createdAt_) {this.createdAt = createdAt_;}

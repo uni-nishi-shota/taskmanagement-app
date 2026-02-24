@@ -21,7 +21,7 @@ public class LogoutServlet extends HttpServlet {
         if (session != null) {
             User user = (User) session.getAttribute("user");
             if (user != null) {
-                System.out.println("Logout: " + user.getUsername());
+                System.out.println("Logout: " + user.getEmail());
             }
             session.invalidate(); // セッション破棄 sessionのisValidはfalseになる
             System.out.println("セッションは破棄されました"); //sessionが消えたかどうかまでは分からない

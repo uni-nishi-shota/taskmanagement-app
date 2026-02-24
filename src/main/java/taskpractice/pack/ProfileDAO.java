@@ -7,7 +7,6 @@ import java.util.Properties;
 
 
 public class ProfileDAO {
-
 	
 	private String URL;
 	private String DB_USER;
@@ -48,37 +47,32 @@ public class ProfileDAO {
 					profile.setUserId(rs.getInt("user_id"));
 					profile.setNickname(rs.getString("nickname"));
 					profile.setBirth(rs.getDate("birth"));
-					profile.setAge(rs.getInt("age"));
 					profile.setJobCategory(rs.getString("job_category"));
 					profile.setHobby(rs.getString("hobby"));
 					profile.setMemo(rs.getString("memo"));
-					profile.setIconPath(rs.getString("icon_image"));
+					profile.setIconImagePath(rs.getString("icon_image"));
 					profile.setCreatedAt(rs.getDate("created_at"));
 					profile.setUpdatedAt(rs.getDate("updated_at"));
 					return profile;
-					
 				}
 			}
-
 		} catch (SQLException e) {
 			System.err.println("error: " + e.getMessage());// サーバーからエラーが返ってきたときのエラー内容の表示
 			e.printStackTrace();
 		}
-
 		return null;
 	}
 	
-	
 	public int setProfiles(Profile profile_,int userid_) {
-		String sql = "UPDATE mst_profiles SET"
-				+ "nickname = ?,"
-				+ "bitrh = ?,"
-				+ "job_category = ?,"
-				+ "hobby = ?,"
-				+ "memo = ?,"
-				+ "icon_image = ?,"
-				+ "updated_at = ?"
-				+ "WHERE user_id = ?";
+		String sql = "UPDATE mst_profiles SET "
+				+ "nickname = ?, "
+				+ "birth = ?, "
+				+ "job_category = ?, "
+				+ "hobby = ?, "
+				+ "memo = ?, "
+				+ "icon_image = ?, "
+				+ "updated_at = ? "
+				+ "WHERE user_id = ?;";
 		
 		try (Connection conn = DriverManager.getConnection(URL, DB_USER, DB_PASSWORD);
 				PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -88,11 +82,10 @@ public class ProfileDAO {
 				ps.setString(3, profile_.getJobCategory());
 				ps.setString(4, profile_.getHobby());
 				ps.setString(5, profile_.getMemo());
-				ps.setString(6, profile_.getIconPath());
+				ps.setString(6, profile_.getIconImagePath());
 				ps.setDate(7, profile_.getUpdatedAt());
 				ps.setInt(8, userid_);
 				
-
 				int affectedRows = ps.executeUpdate();
 				return affectedRows;
 			}
@@ -101,7 +94,25 @@ public class ProfileDAO {
 		
 		}
 		return -1;
+	}
+	
+	public int createProfile(int userid_) {
+		String sql = "INSERT INTO mst_profiles (user_id, created_at) VALUES (?, ?);";
+		Date now = new Date(System.currentTimeMillis());
+		try (Connection conn = DriverManager.getConnection(URL, DB_USER, DB_PASSWORD);
+				PreparedStatement ps = conn.prepareStatement(sql)) {
+
+				ps.setInt(1, userid_);
+				ps.setDate(2, now);
+				
+				int affectedRows = ps.executeUpdate();
+				return affectedRows;
+			}
+		catch (SQLException e) {
+			System.err.println("create error: " + e.getMessage());// サーバーからエラーが返ってきたときのエラー内容の表示
 		
+		}
+		return -1;
 	}
 	
 	

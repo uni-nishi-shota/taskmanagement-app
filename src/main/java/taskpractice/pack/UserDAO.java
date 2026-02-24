@@ -50,15 +50,26 @@ public class UserDAO {
 	 */
 	public int newRegister(String email_, String password_) {
 		String sql = "INSERT INTO mst_users (login_email, login_password) VALUES (?, ?)";
-
+		int generatedId = -1;
+		
 		try (Connection conn = DriverManager.getConnection(URL, DB_USER, DB_PASSWORD);
-			PreparedStatement ps = conn.prepareStatement(sql)) {
+			PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
 			ps.setString(1, email_);
 			ps.setString(2, password_);
 
-			int affectedRows = ps.executeUpdate();
-			return affectedRows;
+			int affectRows = ps.executeUpdate();
+			if(affectRows == 0) {
+				return 0; // 挿入に失敗した場合
+			}
+
+			try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
+				if (generatedKeys.next()) {
+					generatedId = generatedKeys.getInt(1);
+					System.out.println("New user ID: " + generatedId);
+					return generatedId;
+				}
+			}
 		}
 		catch (SQLIntegrityConstraintViolationException e) {
 			// 重複エントリのエラー処理
@@ -69,7 +80,8 @@ public class UserDAO {
 			System.err.println("Register error: " + e.getMessage());// サーバーからエラーが返ってきたときのエラー内容の表示
 			e.printStackTrace();
 		}
-		return -1;
+		return -1; // その他のSQLエラーの場合は-1を返す
+		
 	}
 
 	/**
@@ -92,7 +104,7 @@ public class UserDAO {
 				if (rs.next()) {
 					User user = new User();
 					user.setId(rs.getInt("id"));
-					user.setUsername(rs.getString("login_email"));// データベースのカラム名と合わせる
+					user.setEmail(rs.getString("login_email"));// データベースのカラム名と合わせる
 					return user;
 				}
 			}
@@ -115,7 +127,7 @@ public class UserDAO {
 			while (rs.next()) {
 				User user = new User();
 				user.setId(rs.getInt("id"));
-				user.setUsername(rs.getString("login_email"));
+				user.setEmail(rs.getString("login_email"));
 				users.add(user);
 			}
 		} catch (SQLException e) {

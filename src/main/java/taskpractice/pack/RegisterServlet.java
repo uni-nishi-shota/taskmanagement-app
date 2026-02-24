@@ -37,22 +37,31 @@ public class RegisterServlet extends HttpServlet {
 
 		// データベースでの認証
 		UserDAO userDAO = new UserDAO();
-		int affectRows = userDAO.newRegister(email.trim(), password);
+		int resultNum = userDAO.newRegister(email.trim(), password);
 
-		if (affectRows == 0) {
+		if (resultNum == 0) {
 			// 既にアカウントが存在している場合
 			request_.setAttribute("error", "既にアカウントが存在しています");
 			request_.getRequestDispatcher("jsp/register.jsp").forward(request_, response_);
 
 		} else {
 			// アカウント作成処理
-			if (affectRows > 0) {
+			if (resultNum > 0) {
 				HttpSession newSession = request_.getSession(true);
 				newSession.setAttribute("message", "登録完了しました。");
 				newSession.setAttribute("messageType", "complete-message");
+				
+		
+				ProfileDAO profileDAO = new ProfileDAO();
+				int affectRows =profileDAO.createProfile(resultNum);
+				if(affectRows >0) {
+					System.out.println("プロフィールの初期登録に成功しました");
+				} else {
+					System.out.println("プロフィールの初期登録に失敗しました");
+				}
+				
 				// ログインページにリダイレクト
 				response_.sendRedirect("login");
-				System.out.println("登録成功しました");
 			} else {
 				request_.setAttribute("error", "登録に失敗しました。再度お試しください");
 				request_.getRequestDispatcher("jsp/register.jsp").forward(request_, response_);

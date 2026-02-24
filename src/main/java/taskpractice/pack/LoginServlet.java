@@ -41,15 +41,22 @@ public class LoginServlet extends HttpServlet {
         // データベースでの認証
         UserDAO userDAO = new UserDAO();
         User user = userDAO.authenticate(email.trim(), password);
+        
       
         if (user != null) {
             // ログイン成功: セッションにユーザー情報を保存
             HttpSession session = request_.getSession();
             session.setAttribute("user", user);//user変数にuserっていう名前の属性を設定
             session.setMaxInactiveInterval(60*30); // 30分でタイムアウト(server側より優先)
-            //ログイン成功時に、成功した旨の画面を出す。
-            System.out.println("Login successful: " + user.getUsername());
+            //プロフィール情報も取得してセッションに保存
+            ProfileDAO profileDAO = new ProfileDAO();
+    		Profile profile = profileDAO.getProfiles(user.getId());
+    		if(profile != null) {
+    			session.setAttribute("profile", profile);
+    		}
+            System.out.println("Login successful: " + user.getEmail());
             response_.sendRedirect("logincomplete");//ここに描かれたページに跳ぶ
+            
         } else {
             // ログイン失敗
             System.out.println("Login failed for username: " + email);

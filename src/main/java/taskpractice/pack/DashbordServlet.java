@@ -39,7 +39,7 @@ public class DashbordServlet extends HttpServlet {
 	        
 		 // ログイン済みユーザーの処理
 	        User currentUser = (User) session.getAttribute("user");
-	        System.out.println("Dashboard accessed by: " + currentUser.getUsername());
+	        System.out.println("Dashboard accessed by: " + currentUser.getEmail());
 	        
 	        // ユーザー一覧をデータベースから取得
 	        UserDAO userDAO = new UserDAO();
