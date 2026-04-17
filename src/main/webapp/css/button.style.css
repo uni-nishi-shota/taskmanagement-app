@@ -1,0 +1,83 @@
+@charset "UTF-8";
+
+.btn-group {
+	display: flex;
+	gap: 12px;
+	margin-top: 20px;
+}
+
+.center {
+	justify-content: center;
+}
+
+.column {
+	flex-direction: column;
+}
+
+.row {
+	flex-direction: row;
+}
+
+.btn {
+	padding: 12px 20px;
+	border-radius: 6px;
+	font-size: 15px;
+	cursor: pointer;
+	border: none;
+	text-decoration: none;
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+	transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+	white-space: nowrap;
+}
+
+.btn:hover {
+	background-color: #0056b3;
+}
+
+.btn-wrapper {
+	margin: 0;
+}
+
+/* 主操作（ログイン・登録・保存など） */
+.btn-primary {
+	background-color: #007bff;
+	color: white;
+}
+
+.btn-primary:hover {
+	background-color: #0056b3;
+}
+
+/* 副操作（戻る・キャンセルなど） */
+.btn-secondary {
+	background: white;
+	color: #007bff;
+	border: 1px solid #007bff;
+}
+
+.btn-secondary:hover {
+	background: #e7f0ff;
+}
+
+/* 危険操作（ログアウト・削除など） */
+.btn-danger {
+	background: #dc3545;
+	color: white;
+}
+
+.btn-danger:hover {
+	background: #c82333;
+}
+
+.link-button {
+	background: none;
+	border: none;
+	color: #007bff;
+	text-decoration: underline;
+	cursor: pointer;
+	padding: 0;
+	font-size: 14px;
+}
+

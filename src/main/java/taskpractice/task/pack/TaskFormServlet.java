@@ -1,4 +1,4 @@
-package taskpractice.pack;
+package taskpractice.task.pack;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -8,17 +8,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-/**
- * Servlet implementation class MenuServlet
- */
-@WebServlet("/menu")
-public class MenuServlet extends HttpServlet {
+
+@WebServlet("/taskform")
+public class TaskFormServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
-	protected void doGet(HttpServletRequest request_, HttpServletResponse response_)
-			throws ServletException, IOException {
-
-		// キャッシュ無効化設定
+       
+	protected void doGet(HttpServletRequest request_, HttpServletResponse response_) throws ServletException, IOException {
 		response_.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1
 		response_.setHeader("Pragma", "no-cache"); // HTTP 1.0
 		response_.setDateHeader("Expires", 0); // 過去の日付を設定して即時期限切れにする
@@ -36,11 +31,23 @@ public class MenuServlet extends HttpServlet {
             return;
         }
         
-        request_.getRequestDispatcher("jsp/menu.jsp").forward(request_, response_);
+        
+        
+        String id = request_.getParameter("id");
+        TaskDAO dao = new TaskDAO();
+        if (id != null && !id.isEmpty()) {
+            // 編集
+            Task task = dao.findById(Integer.parseInt(id));
+            request_.setAttribute("task", task);
+        }
+
+        // フォーム画面へ
+        request_.getRequestDispatcher("jsp/taskform.jsp").forward(request_, response_);
 	}
+
+	
+	protected void doPost(HttpServletRequest request_, HttpServletResponse response_) throws ServletException, IOException {
+		
+	}
+
 }
-//TODO memoとhobbyの枠を文字量に応じて広げたい（出来なければ、固定でいいから一旦広げる     できたっぽい？
-//また、プロフィール作成後の誕生日はそのまま登録するとエラー出るので、それも修正。		できた！
-//その後はタスクリストの画面作成ー＞タスク作成の画面と内部作成。編集もできるように。 一旦リスト作って、そこから、タスク作成とか編集とか行えるようにする。
-//最終的にリストからカレンダーでみれるようにリンクかボタンで行けるようにする。
-//ここまでを一旦の完成とし、その後はカレンダーに表示などをやっていくつもり

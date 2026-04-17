@@ -1,10 +1,12 @@
-package taskpractice.pack;
+package taskpractice.profile.pack;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -14,6 +16,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
+
+import taskpractice.pack.User;
 
 
 /**
@@ -54,6 +58,9 @@ public class ProfileServlet extends HttpServlet {
 			profile.setAge((int)age);
 		}
 		
+		JobCategoryDAO jobDAO = new JobCategoryDAO();
+		request_.setAttribute("jobCategoryList", jobDAO.getJobCategory());
+		
 		request_.setAttribute("profile", profile);
 		request_.getRequestDispatcher("jsp/profile.jsp").forward(request_, response_);
 	}
@@ -79,10 +86,15 @@ public class ProfileServlet extends HttpServlet {
 		User user = (User) session.getAttribute("user");
 		ProfileDAO profileDAO = new ProfileDAO();
 		Profile profile = profileDAO.getProfiles(user.getId());
-		
 		profile.setNickname(request_.getParameter("nickname"));
+		
 		String birthStr = request_.getParameter("birth");
-		profile.setBirth(Date.valueOf(birthStr));
+		Date birth = null;
+		if (birthStr != null && !birthStr.isEmpty()) {
+		    birth = Date.valueOf(birthStr);
+		}
+		profile.setBirth(birth);
+		
 		profile.setJobCategory(request_.getParameter("job-category"));
 		profile.setHobby(request_.getParameter("hobby"));
 		profile.setMemo(request_.getParameter("memo"));
@@ -121,18 +133,18 @@ public class ProfileServlet extends HttpServlet {
 			profile.setIconImagePath(iconImagePath);
 		}
 		
-		LocalDate currentDate = LocalDate.now();
-		profile.setUpdatedAt(Date.valueOf(currentDate));
+		LocalDateTime now = LocalDateTime.now();
+		profile.setUpdatedAt(Timestamp.valueOf(now));
 		
 		int affectRows = profileDAO.setProfiles(profile,user.getId());
 		
 		if(affectRows > 0) {
-			HttpSession newSession = request_.getSession(true);
-			newSession.setAttribute("message", "更新完了しました。");
-			newSession.setAttribute("messageType", "complete-message");
-			request_.setAttribute("profile", profile);
+			request_.getSession().setAttribute("message", "更新完了しました。");
+			request_.getSession().setAttribute("messageType", "complete");
+			
 		}else {
-			request_.setAttribute("error", "更新に失敗しました。再度お試しください");
+			request_.getSession().setAttribute("message", "更新失敗しました。");
+			request_.getSession().setAttribute("messageType", "error");
 		}
 		response_.sendRedirect("profile");
 		

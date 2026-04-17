@@ -5,13 +5,18 @@
 <head>
 <meta charset="UTF-8">
 <title>ログインコンプリート - Task Practice Web App</title>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/general.style.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/css/general.style.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/css/button.style.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/css/button.style.css">
 </head>
 
 <body>
 	<div class="page-wrapper">
-		 <!-- ヘッダー -->
-	<jsp:include page="header.jsp"/>
+		<!-- ヘッダー -->
+		<jsp:include page="header.jsp" />
 
 		<!-- メイン -->
 		<main class="centered">
@@ -27,7 +32,7 @@
 		</main>
 
 		<!-- フッター -->
-   <jsp:include page="footer.jsp"/>
+		<jsp:include page="footer.jsp" />
 	</div>
 </body>
 

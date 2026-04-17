@@ -1,6 +1,8 @@
-package taskpractice.pack;
+package taskpractice.task.pack;
 
 import java.io.IOException;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -8,13 +10,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-/**
- * Servlet implementation class MenuServlet
- */
-@WebServlet("/menu")
-public class MenuServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+import taskpractice.pack.User;
 
+/**
+ * Servlet implementation class TasklistServlet
+ */
+@WebServlet("/tasklist")
+public class TaskListServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
 	protected void doGet(HttpServletRequest request_, HttpServletResponse response_)
 			throws ServletException, IOException {
 
@@ -36,11 +40,21 @@ public class MenuServlet extends HttpServlet {
             return;
         }
         
-        request_.getRequestDispatcher("jsp/menu.jsp").forward(request_, response_);
+        User user = (User) session.getAttribute("user");
+        TaskDAO dao = new TaskDAO();
+        
+        List<Task> list = dao.findActiveByUserId(user.getId());
+        String mode = request_.getParameter("mode");
+        if("trash".equals(mode)) {
+			 list = dao.findDeletedByUserId(user.getId());
+		}
+        else if("active".equals(mode)) {
+        	 list = dao.findActiveByUserId(user.getId());
+        }
+       
+        request_.setAttribute("mode", mode);
+        request_.setAttribute("taskList", list);
+        request_.getRequestDispatcher("jsp/tasklist.jsp").forward(request_, response_);
+     
 	}
 }
-//TODO memoとhobbyの枠を文字量に応じて広げたい（出来なければ、固定でいいから一旦広げる     できたっぽい？
-//また、プロフィール作成後の誕生日はそのまま登録するとエラー出るので、それも修正。		できた！
-//その後はタスクリストの画面作成ー＞タスク作成の画面と内部作成。編集もできるように。 一旦リスト作って、そこから、タスク作成とか編集とか行えるようにする。
-//最終的にリストからカレンダーでみれるようにリンクかボタンで行けるようにする。
-//ここまでを一旦の完成とし、その後はカレンダーに表示などをやっていくつもり

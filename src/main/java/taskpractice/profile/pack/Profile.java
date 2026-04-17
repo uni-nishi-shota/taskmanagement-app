@@ -1,6 +1,7 @@
-package taskpractice.pack;
+package taskpractice.profile.pack;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 public class Profile {
 	private int id;
@@ -12,8 +13,8 @@ public class Profile {
 	private String hobby;
 	private String memo;
 	private String iconImagePath;
-	private Date createdAt;
-	private Date updatedAt;
+	private Timestamp createdAt;
+	private Timestamp updatedAt;
 	
 	// デフォルトコンストラクタ
     public Profile() {}
@@ -52,10 +53,10 @@ public class Profile {
 	public String getIconImagePath() {return iconImagePath;}
 	public void setIconImagePath(String iconImagePath_) {this.iconImagePath = iconImagePath_;}
 	
-	public Date getCreatedAt() {return createdAt;}
-	public void setCreatedAt(Date createdAt_) {this.createdAt = createdAt_;}
+	public Timestamp getCreatedAt() {return createdAt;}
+	public void setCreatedAt(Timestamp createdAt_) {this.createdAt = createdAt_;}
 	
-	public Date getUpdatedAt() {return updatedAt;}
-	public void setUpdatedAt(Date updatedAt_) {this.updatedAt = updatedAt_;}
+	public Timestamp getUpdatedAt() {return updatedAt;}
+	public void setUpdatedAt(Timestamp updatedAt_) {this.updatedAt = updatedAt_;}
 
 }

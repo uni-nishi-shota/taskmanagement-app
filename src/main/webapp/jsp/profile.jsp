@@ -1,13 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="ja">
 
 <head>
 <meta charset="UTF-8">
 <title>プロフィール- Task Practice Web App</title>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/general.style.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/profile.style.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/css/general.style.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/css/button.style.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/css/profile.style.css">
 
 
 </head>
@@ -24,31 +29,19 @@
 				<h2>プロフィール画面</h2>
 
 				<!-- フラッシュメッセージ表示 -->
-				<%
-				String message = (String) session.getAttribute("message");//セッションからmessageというキーから、値を取り出す。
-				String messageType = (String) session.getAttribute("messageType");
-				if (message != null) {
-					session.removeAttribute("message");// 一度表示したらセッションから削除
-					session.removeAttribute("messageType");// 一度表示したらセッションから削除
-				}
-				%>
-				<p class="<%=messageType != null ? messageType : ""%>">
-					<%=message != null ? message : ""%>
-				</p>
-				<!-- エラーメッセージ表示 -->
-				<%
-				if (request.getAttribute("error") != null) {
-				%>
-				<div class="error">
-					<%=request.getAttribute("error")%>
-				</div>
-				<%
-				}
-				%>
+				<c:if test="${not empty message}">
+					<div class="${messageType}">
+						<p>${message}</p>
+					</div>
+				</c:if>
+				<c:remove var="message" scope="session" />
+				<c:remove var="messageType" scope="session" />
+				<!-- 上の更新成功したとき、うまく表示できてない -->
+
 
 				<!-- プロフィールフォーム -->
 				<form method="post"
-					action="${pageContext.request.contextPath}/profile" 
+					action="${pageContext.request.contextPath}/profile"
 					enctype="multipart/form-data">
 					<div class="form-group">
 						<label for="nickname">ニックネーム（50文字以内）</label> <input type="text"
@@ -66,30 +59,29 @@
 					</div>
 
 					<div class="form-group">
-						<label for="job-category">職種</label> <input type="search"
-							id="job-category" name="job-category" placeholder="職種を選択"
-							list="job-categories" value="${profile.jobCategory}">
-						<datalist id="job-categories">
-							<option value="学生"></option>
-							<option value="会社員"></option>
-							<option value="公務員"></option>
-							<option value="自営業"></option>
-							<option value="フリーランス"></option>
-							<option value="無職"></option>
-							<option value="主婦・主夫"></option>
-							<option value="アルバイト・パート"></option>
-							<option value="その他"></option>
-						</datalist>
+						<label for="job-category">職種</label> <select id="job-category"
+							name="job-category">
+							<c:forEach var="job" items="${jobCategoryList}">
+								<option value="${job.jobName}"
+									<c:if test="${job.jobName == profile.jobCategory}">selected</c:if>>
+									${job.jobName}
+								</option>
+							</c:forEach>
+						</select>
 					</div>
 
 					<div class="form-group">
-						<label for="hobby">趣味・好きなこと</label> <input type="text" id="hobby"
-							name="hobby" placeholder="趣味・好きなことを入力" value="${profile.hobby}">
+						<label for="hobby">趣味・好きなこと</label>
+						<textarea id="hobby" name="hobby" placeholder="趣味・好きなことを入力"
+							rows="7" cols="45">${profile.hobby}</textarea>
+
 					</div>
 
 					<div class="form-group">
-						<label for="memo">memo</label> <input type="text" id="memo"
-							name="memo" placeholder="メモ..." value="${profile.memo}">
+						<label for="memo">memo</label>
+						<textarea id="memo" name="memo" placeholder="メモ..." rows="7"
+							cols="45">${profile.memo}</textarea>
+
 					</div>
 
 					<div class="form-group">
@@ -97,10 +89,12 @@
 							type="file" id="icon-image" name="icon-image"
 							accept="image/png, image/jpeg">
 					</div>
-					
+
 					<div>
-                        <img src="${pageContext.request.contextPath}/image?path=${profile.iconImagePath}" class="profile-icon">
-                    </div>
+						<img
+							src="${pageContext.request.contextPath}/image?path=${profile.iconImagePath}"
+							class="profile-icon">
+					</div>
 
 					<div>
 						<p>更新日時:${profile.updatedAt}</p>

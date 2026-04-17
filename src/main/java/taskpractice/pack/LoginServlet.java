@@ -8,6 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import taskpractice.profile.pack.Profile;
+import taskpractice.profile.pack.ProfileDAO;
+
 //import javax.servlet.http.*; 上の奴などをまとめてインポートしてる
 /**
  * Servlet implementation class LoginServlet
@@ -33,7 +36,8 @@ public class LoginServlet extends HttpServlet {
         // 入力値チェック
         if (email == null || email.trim().isEmpty() || 
             password == null || password.trim().isEmpty()) {
-            request_.setAttribute("error", "ユーザー名とパスワードを入力してください");
+            request_.setAttribute("massage", "ユーザー名とパスワードを入力してください");
+            request_.setAttribute("messageType", "error");
             request_.getRequestDispatcher("jsp/login.jsp").forward(request_, response_);
             return;
         }
@@ -60,7 +64,8 @@ public class LoginServlet extends HttpServlet {
         } else {
             // ログイン失敗
             System.out.println("Login failed for username: " + email);
-            request_.setAttribute("error", "ユーザー名またはパスワードが間違っています");
+            request_.setAttribute("message", "ユーザー名またはパスワードが間違っています");
+            request_.setAttribute("messageType", "error");
             request_.getRequestDispatcher("jsp/login.jsp").forward(request_, response_);
         }
     }

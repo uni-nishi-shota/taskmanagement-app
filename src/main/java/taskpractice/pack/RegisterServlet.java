@@ -6,7 +6,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+//import javax.servlet.http.HttpSession;
+
+import taskpractice.profile.pack.ProfileDAO;
 
 /**
  * Servlet implementation class registerServlet
@@ -30,7 +32,8 @@ public class RegisterServlet extends HttpServlet {
 
 		// 入力値チェック
 		if (email == null || email.trim().isEmpty() || password == null || password.trim().isEmpty()) {
-			request_.setAttribute("error", "ユーザー名とパスワードを入力してください");
+			request_.setAttribute("message", "ユーザー名とパスワードを入力してください");
+			request_.setAttribute("messageType", "error");
 			request_.getRequestDispatcher("register.jsp").forward(request_, response_);
 			return;
 		}
@@ -41,16 +44,19 @@ public class RegisterServlet extends HttpServlet {
 
 		if (resultNum == 0) {
 			// 既にアカウントが存在している場合
-			request_.setAttribute("error", "既にアカウントが存在しています");
+			request_.setAttribute("message", "既にアカウントが存在しています");
+			request_.setAttribute("messageType", "error");
 			request_.getRequestDispatcher("jsp/register.jsp").forward(request_, response_);
 
 		} else {
 			// アカウント作成処理
 			if (resultNum > 0) {
-				HttpSession newSession = request_.getSession(true);
-				newSession.setAttribute("message", "登録完了しました。");
-				newSession.setAttribute("messageType", "complete-message");
-				
+				//HttpSession newSession = request_.getSession(true);
+				//newSession.setAttribute("successMessage", "登録完了しました。");
+				//newSession.setAttribute("messageType", "complete-message");
+				request_.setAttribute("message", "登録完了しました。");
+				request_.setAttribute("messageType", "complete");
+				request_.getRequestDispatcher("jsp/login.jsp").forward(request_, response_);
 		
 				ProfileDAO profileDAO = new ProfileDAO();
 				int affectRows =profileDAO.createProfile(resultNum);
@@ -63,7 +69,8 @@ public class RegisterServlet extends HttpServlet {
 				// ログインページにリダイレクト
 				response_.sendRedirect("login");
 			} else {
-				request_.setAttribute("error", "登録に失敗しました。再度お試しください");
+				request_.setAttribute("message", "登録に失敗しました。再度お試しください");
+				request_.setAttribute("messageType", "error");
 				request_.getRequestDispatcher("jsp/register.jsp").forward(request_, response_);
 			}
 		}

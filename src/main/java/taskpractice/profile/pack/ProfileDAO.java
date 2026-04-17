@@ -1,4 +1,4 @@
-package taskpractice.pack;
+package taskpractice.profile.pack;
 
 import java.sql.*;
 import java.io.InputStream;
@@ -51,8 +51,8 @@ public class ProfileDAO {
 					profile.setHobby(rs.getString("hobby"));
 					profile.setMemo(rs.getString("memo"));
 					profile.setIconImagePath(rs.getString("icon_image"));
-					profile.setCreatedAt(rs.getDate("created_at"));
-					profile.setUpdatedAt(rs.getDate("updated_at"));
+					profile.setCreatedAt(rs.getTimestamp("created_at"));
+					profile.setUpdatedAt(rs.getTimestamp("updated_at"));
 					return profile;
 				}
 			}
@@ -83,7 +83,7 @@ public class ProfileDAO {
 				ps.setString(4, profile_.getHobby());
 				ps.setString(5, profile_.getMemo());
 				ps.setString(6, profile_.getIconImagePath());
-				ps.setDate(7, profile_.getUpdatedAt());
+				ps.setTimestamp(7, profile_.getUpdatedAt());
 				ps.setInt(8, userid_);
 				
 				int affectedRows = ps.executeUpdate();
@@ -114,6 +114,8 @@ public class ProfileDAO {
 		}
 		return -1;
 	}
+	
+
 	
 	
 	

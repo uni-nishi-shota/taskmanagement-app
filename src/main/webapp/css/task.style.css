@@ -1,0 +1,67 @@
+@charset "UTF-8";
+
+.task-item{
+	background: white;
+    padding: 20px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border: 1px solid rgb(0, 0, 0);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/*編集ボタン*/
+.btn-edit {
+    background-color: white;
+    border: 1px solid #4a90e2;
+    border-radius: 6px;
+    padding: 2px;
+    color: #4a90e2;
+}
+
+.btn-edit:hover {
+    background-color: #4a90e2;
+    color: white;
+}
+
+/*復元ボタン*/
+.btn-restore {
+    background-color: white;
+    border: 1px solid rgb(0, 128, 128);
+    border-radius: 6px;
+    padding: 2px;
+    color: rgb(0, 128, 0);
+}
+
+.btn-restore:hover {
+    background-color: rgb(0, 128, 64);
+    color: white;
+}
+
+
+/*削除ボタン（論理削除）*/
+.btn-delete {
+    background-color: white;
+    border: 1px solid #2c5aa0;
+    border-radius: 6px;
+    padding: 3px;
+    color: #2c5aa0;
+}
+
+.btn-delete:hover {
+    background-color: #2c5aa0;
+    color: white;
+}
+
+/*完全削除ボタン（物理削除）*/
+.btn-harddelete {
+    background-color: white;
+    border: 1px solid #d9534f;
+    border-radius: 6px;
+    padding: 3px;
+    color: #d9534f;
+}
+
+.btn-harddelete:hover {
+    background-color: #d9534f;
+    color: white;
+}
