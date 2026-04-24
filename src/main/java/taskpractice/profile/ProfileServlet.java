@@ -1,4 +1,4 @@
-package taskpractice.profile.pack;
+package taskpractice.profile;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
-import taskpractice.pack.User;
+import taskpractice.user.User;
 
 
 /**

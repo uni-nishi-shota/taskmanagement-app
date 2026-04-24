@@ -1,8 +1,6 @@
-package taskpractice.task.pack;
+package taskpractice.task;
 
 import java.io.IOException;
-import java.util.List;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,19 +8,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import taskpractice.pack.User;
 
-/**
- * Servlet implementation class TasklistServlet
- */
-@WebServlet("/tasklist")
-public class TaskListServlet extends HttpServlet {
+@WebServlet("/taskform")
+public class TaskFormServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-	protected void doGet(HttpServletRequest request_, HttpServletResponse response_)
-			throws ServletException, IOException {
-
-		// キャッシュ無効化設定
+	protected void doGet(HttpServletRequest request_, HttpServletResponse response_) throws ServletException, IOException {
 		response_.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1
 		response_.setHeader("Pragma", "no-cache"); // HTTP 1.0
 		response_.setDateHeader("Expires", 0); // 過去の日付を設定して即時期限切れにする
@@ -40,21 +31,23 @@ public class TaskListServlet extends HttpServlet {
             return;
         }
         
-        User user = (User) session.getAttribute("user");
-        TaskDAO dao = new TaskDAO();
         
-        List<Task> list = dao.findActiveByUserId(user.getId());
-        String mode = request_.getParameter("mode");
-        if("trash".equals(mode)) {
-			 list = dao.findDeletedByUserId(user.getId());
-		}
-        else if("active".equals(mode)) {
-        	 list = dao.findActiveByUserId(user.getId());
+        
+        String id = request_.getParameter("id");
+        TaskDAO dao = new TaskDAO();
+        if (id != null && !id.isEmpty()) {
+            // 編集
+            Task task = dao.findById(Integer.parseInt(id));
+            request_.setAttribute("task", task);
         }
-       
-        request_.setAttribute("mode", mode);
-        request_.setAttribute("taskList", list);
-        request_.getRequestDispatcher("jsp/tasklist.jsp").forward(request_, response_);
-     
+
+        // フォーム画面へ
+        request_.getRequestDispatcher("jsp/taskform.jsp").forward(request_, response_);
 	}
+
+	
+	protected void doPost(HttpServletRequest request_, HttpServletResponse response_) throws ServletException, IOException {
+		
+	}
+
 }

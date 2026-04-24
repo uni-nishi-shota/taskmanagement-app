@@ -1,4 +1,4 @@
-package taskpractice.task.pack;
+package taskpractice.task;
 
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import taskpractice.pack.User;
+import taskpractice.user.User;
 
 @WebServlet("/tasksave")
 public class TaskSaveServlet extends HttpServlet {

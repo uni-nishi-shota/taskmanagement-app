@@ -1,14 +1,20 @@
 package taskpractice.pack;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-//import javax.servlet.http.HttpSession;
+import org.mindrot.jbcrypt.BCrypt;
 
-import taskpractice.profile.pack.ProfileDAO;
+import taskpractice.profile.ProfileDAO;
+import taskpractice.user.UserDAO;
+
+import javax.servlet.http.HttpSession;
 
 /**
  * Servlet implementation class registerServlet
@@ -26,6 +32,8 @@ public class RegisterServlet extends HttpServlet {
 	// POST: 処理
 	protected void doPost(HttpServletRequest request_, HttpServletResponse response_)
 			throws ServletException, IOException {
+		// 文字化け対策
+		request_.setCharacterEncoding("UTF-8");
 
 		String email = request_.getParameter("email");
 		String password = request_.getParameter("password");
@@ -38,9 +46,43 @@ public class RegisterServlet extends HttpServlet {
 			return;
 		}
 
+		List<String> errors = new ArrayList<>();
+		// メアドが英数字かどうか（ドメインの日本語入力はスルー）
+		if (email == null || !email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")) {
+			errors.add("正しいメールアドレス形式で入力してください");
+		}
+		
+		// パスワードの複雑さチェック（例: 大文字、小文字、数字、特殊文字を含む）
+		if (password == null || password.length() < 8) {
+			errors.add("パスワードは8文字以上で入力してください");
+		}
+
+		int count = 0;
+		if (password.matches(".*[A-Z].*"))
+			count++; // 大文字
+		if (password.matches(".*[a-z].*"))
+			count++; // 小文字
+		if (password.matches(".*[0-9].*"))
+			count++; // 数字
+		if (password.matches(".*[^a-zA-Z0-9].*"))
+			count++; // 記号
+
+		if (count < 2) {
+			errors.add("パスワードは2種類以上の文字種（大文字・小文字・数字・記号）を含めてください");
+		}
+
+		if (!errors.isEmpty()) {
+			request_.setAttribute("errors", errors);
+			request_.getRequestDispatcher("/jsp/register.jsp").forward(request_, response_);
+			return;
+		}
+
+		// パスワードのハッシュ化
+		String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
+
 		// データベースでの認証
 		UserDAO userDAO = new UserDAO();
-		int resultNum = userDAO.newRegister(email.trim(), password);
+		int resultNum = userDAO.newRegister(email.trim(), hashedPassword);
 
 		if (resultNum == 0) {
 			// 既にアカウントが存在している場合
@@ -51,21 +93,19 @@ public class RegisterServlet extends HttpServlet {
 		} else {
 			// アカウント作成処理
 			if (resultNum > 0) {
-				//HttpSession newSession = request_.getSession(true);
-				//newSession.setAttribute("successMessage", "登録完了しました。");
-				//newSession.setAttribute("messageType", "complete-message");
-				request_.setAttribute("message", "登録完了しました。");
-				request_.setAttribute("messageType", "complete");
-				request_.getRequestDispatcher("jsp/login.jsp").forward(request_, response_);
-		
+
+				HttpSession session = request_.getSession();
+				session.setAttribute("message", "登録完了しました。");
+				session.setAttribute("messageType", "complete");
+
 				ProfileDAO profileDAO = new ProfileDAO();
-				int affectRows =profileDAO.createProfile(resultNum);
-				if(affectRows >0) {
+				int affectRows = profileDAO.createProfile(resultNum);
+				if (affectRows > 0) {
 					System.out.println("プロフィールの初期登録に成功しました");
 				} else {
 					System.out.println("プロフィールの初期登録に失敗しました");
 				}
-				
+
 				// ログインページにリダイレクト
 				response_.sendRedirect("login");
 			} else {

@@ -1,4 +1,4 @@
-package taskpractice.profile.pack;
+package taskpractice.profile;
 
 import java.io.IOException;
 import javax.servlet.*;
@@ -6,7 +6,7 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import taskpractice.pack.User;
+import taskpractice.user.User;
 
 @WebFilter("/*")
 public class ProfileLoadFilter implements Filter {

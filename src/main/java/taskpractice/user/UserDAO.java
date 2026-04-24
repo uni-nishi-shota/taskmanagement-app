@@ -1,4 +1,4 @@
-package taskpractice.pack;
+package taskpractice.user;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -91,20 +91,20 @@ public class UserDAO {
 	 * @param password_ パスワード
 	 * @return 認証成功時はUserオブジェクト、失敗時はnull
 	 */
-	public User authenticate(String email_, String password_) {
-		String sql = "SELECT id, login_email FROM mst_users WHERE login_email = ? AND login_password = ?";
+	public User findByEmail(String email_) {
+		String sql = "SELECT id, login_email,login_password FROM mst_users WHERE login_email = ?";
 
 		try (Connection conn = DriverManager.getConnection(URL, DB_USER, DB_PASSWORD);
 				PreparedStatement ps = conn.prepareStatement(sql)) {
 
 			ps.setString(1, email_);
-			ps.setString(2, password_);
 
 			try (ResultSet rs = ps.executeQuery()) {
 				if (rs.next()) {
 					User user = new User();
 					user.setId(rs.getInt("id"));
-					user.setEmail(rs.getString("login_email"));// データベースのカラム名と合わせる
+					user.setEmail(rs.getString("login_email"));
+					user.setPassword(rs.getString("login_password"));// データベースのカラム名と合わせる
 					return user;
 				}
 			}

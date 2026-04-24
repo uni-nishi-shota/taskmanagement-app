@@ -1,4 +1,4 @@
-package taskpractice.profile.pack;
+package taskpractice.profile;
 
 public class JobCategory {
 	

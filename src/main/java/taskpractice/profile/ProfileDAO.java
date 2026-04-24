@@ -1,4 +1,4 @@
-package taskpractice.profile.pack;
+package taskpractice.profile;
 
 import java.sql.*;
 import java.io.InputStream;

@@ -1,4 +1,4 @@
-package taskpractice.task.pack;
+package taskpractice.task;
 
 import java.io.IOException;
 import java.io.InputStream;

@@ -35,6 +35,14 @@
 				<c:remove var="message" scope="session" />
 				<c:remove var="messageType" scope="session" />
 
+				<c:if test="${not empty errors}">
+					<ul>
+						<c:forEach var="err" items="${errors}">
+							<li style="color: red;">${err}</li>
+						</c:forEach>
+					</ul>
+				</c:if>
+
 				<!-- 登録フォーム -->
 				<form method="post"
 					action="${pageContext.request.contextPath}/register">

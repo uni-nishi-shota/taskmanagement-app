@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="java.util.List" %>
-<%@ page import="taskpractice.pack.User" %>
+<%@ page import="taskpractice.user.User" %>
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -19,7 +19,7 @@
         <h1>ダッシュボード</h1>
         <div class="user-info">
             <span class="welcome-text">
-                ようこそ、<strong><%= ((User)session.getAttribute("user")).getEmail() %></strong>さん
+                ようこそ、<strong><%=Userer)session.getAttribute("user")).getEmail()%></strong>さん
             </span>
             <a href="${pageContext.request.contextPath}/jsp/menu.jsp" class="menu-btn">メニューへ</a>
         </div>
@@ -29,13 +29,13 @@
         <h2 class="section-title">ユーザー管理</h2>
         
         <%
-            @SuppressWarnings("unchecked")
-            List<User> users = (List<User>) request.getAttribute("users");
-            User currentUser = (User) session.getAttribute("user");
-        %>
+                @SuppressWarnings("unchecked")
+                            LisUserer> users = (LisUserer>) request.getAttribute("users");
+                          Userer currentUser =Userer) session.getAttribute("user");
+                %>
         
         <div class="user-count">
-            登録ユーザー数: <%= users != null ? users.size() : 0 %>名
+            登録ユーザー数: <%=users != null ? users.size() : 0%>名
         </div>
         
         <table>
@@ -48,10 +48,10 @@
             </thead>
             <tbody>
                 <%
-                    if (users != null) {
-                        for (User user : users) {
-                            boolean isCurrentUser = currentUser != null && 
-                                                  currentUser.getId() == user.getId();
+                if (users != null) {
+                                        forUserer user : users) {
+                                            boolean isCurrentUser = currentUser != null && 
+                                                                  currentUser.getId() == user.getId();
                 %>
                     <tr <%= isCurrentUser ? "class=\"current-user\"" : "" %>>
                         <td><%= user.getId() %></td>

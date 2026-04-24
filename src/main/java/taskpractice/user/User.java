@@ -1,4 +1,4 @@
-package taskpractice.pack;
+package taskpractice.user;
 
 public class User {
 	private int id;

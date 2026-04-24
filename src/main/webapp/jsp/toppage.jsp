@@ -25,8 +25,8 @@
 
 				<div class="btn-group.column">
 					<a href="${pageContext.request.contextPath}/jsp/login.jsp"
-						class="btn btn-primary">ログイン</a> <a
-						href="${pageContext.request.contextPath}/jsp/register.jsp"
+						class="btn btn-primary">ログイン</a> 
+					<a href="${pageContext.request.contextPath}/jsp/register.jsp"
 						class="btn btn-secondary">新規登録</a>
 				</div>
 			</div>

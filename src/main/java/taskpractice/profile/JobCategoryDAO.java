@@ -1,4 +1,4 @@
-package taskpractice.profile.pack;
+package taskpractice.profile;
 
 import java.io.IOException;
 import java.io.InputStream;

@@ -1,4 +1,4 @@
-package taskpractice.task.pack;
+package taskpractice.task;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -9,22 +9,22 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * Servlet implementation class TaskHardDeleteServlet
+ * Servlet implementation class TaskDeleteServlet
  */
-@WebServlet("/harddeletetask")
-public class TaskHardDeleteServlet extends HttpServlet {
+@WebServlet("/deletetask")
+public class TaskDeleteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+
+	 
 	protected void doGet(HttpServletRequest request_, HttpServletResponse response_)
 			throws ServletException, IOException {
 		int id = Integer.parseInt(request_.getParameter("id"));
 
 		TaskDAO dao = new TaskDAO();
-		Task task = new Task();
-		dao.hardDeleteTask(id,task.getUserId());
+		dao.softDeleteTask(id);
 		
 		HttpSession session = request_.getSession();
-		session.setAttribute("message", "タスクを完全削除しました");
+		session.setAttribute("message", "タスクを”最近削除した項目”に移動しました");
 		session.setAttribute("messageType", "complete-message");
 		response_.sendRedirect("tasklist");
 	}
@@ -36,4 +36,3 @@ public class TaskHardDeleteServlet extends HttpServlet {
 	}
 
 }
-
